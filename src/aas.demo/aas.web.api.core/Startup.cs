@@ -1,3 +1,7 @@
+using System;
+using aas.web.api.Interfaces;
+using aas.web.api.Services;
+using aas.web.api.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +18,10 @@ namespace aas.web.api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<AASSettings>(Configuration.GetSection(Helper.AASSectionName));
+            services.Configure<AzureSettings>(Configuration.GetSection(Helper.AzureSectionName));
+            //services.AddHttpClient(); //adding http factory services
+            services.AddScoped<IQueryService, QueryService>();
             services.AddControllers();
         }
 
