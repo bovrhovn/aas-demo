@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using aas.web.api.Interfaces;
@@ -22,30 +23,26 @@ namespace aas.web.api.Controllers
         }
 
         [HttpGet]
-        public async Task<string> Get()
+        [Route("data/{query}")]
+        public async Task<string> Get(string query)
         {
             logger.LogInformation("Authenticating....");
+            
             var authData = await queryService.AuthenticateAsync();
+            
             logger.LogInformation($"Authenticated with bearer token - {authData.PasswordOrToken}");
-            logger.LogInformation("Executing query...");
-            var query = @"
-                    EVALUATE
-                      TOPN(
-                        1001,
-                        SUMMARIZECOLUMNS('Product'[Name], ""SumListPrice"", CALCULATE(SUM('Product'[ListPrice]))),
-                        [SumListPrice],
-                        0,
-                        'Product'[Name],
-                        1
-                      )
-
-                    ORDER BY
-                      [SumListPrice] DESC, 'Product'[Name]
-                    ";
+            logger.LogInformation($"Calling service with query data at {DateTime.Now}");
+            
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            
             var result = await queryService.QueryAsync(authData, new Dictionary<string, string>
             {
                 {"query",query}
             });
+            
+            stopWatch.Stop();
+            logger.LogInformation($"Done calling service...took {stopWatch.ElapsedMilliseconds} ms");
 
             return result == null ? "Empty database" : Encoding.UTF8.GetString(result);
         }
