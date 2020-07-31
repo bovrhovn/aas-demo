@@ -4,6 +4,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aas.web.api.core", "aas.web
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aas.client", "aas.client\aas.client.csproj", "{785D77BD-08AE-4121-9EED-CD5F1819F6BA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{82FFF217-E85D-4357-B77D-B637C90BAC14}"
+ProjectSection(SolutionItems) = preProject
+	..\Dockerfile = ..\Dockerfile
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
