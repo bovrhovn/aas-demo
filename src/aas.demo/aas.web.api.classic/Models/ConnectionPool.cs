@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using aas.demo.shared;
 using Microsoft.AnalysisServices.AdomdClient;
 
-namespace aas.web.api.Models
+namespace aas.web.api.classic.Models
 {
     internal class ConnectionPoolEntry
     {
@@ -11,13 +10,6 @@ namespace aas.web.api.Models
         {
             Connection = con;
             ConnectionString = connectionString;
-
-            //the combindation of the strong reference to the connection
-            //and this delegate ties the reachability of the ConnectionPoolEntry and the AdomdConnection together
-            //so they are guaranteed to become unreachable at the same time
-            //This would enable the ConnectionPool to keep a WeakReference to the ConnectionPoolEntry without
-            //keeping the AdomdConnection alive, but also not worry about the ConnectionPoolEntry being GCd
-            //while the AdomdConnection is still alive.
             con.Disposed += (s, a) =>
             {
                 IsDisposed = true;
@@ -42,6 +34,7 @@ namespace aas.web.api.Models
             IsCheckedOut = true;
             LastCheckedOut = DateTime.Now;
         }
+        
         public bool IsCheckedOut { get; private set; }
         public int TimesCheckedOut { get; private set; }
         public TimeSpan TotalCheckoutTime { get; private set; }
@@ -49,16 +42,10 @@ namespace aas.web.api.Models
         public DateTime LastCheckedIn { get; private set; } = DateTime.MinValue;
     }
 
-    //This is a simple Connection Pool, made simple because the client 
-    //is responsible for checking out and back in the ConnectionPoolEntry, not just the AdomdConneciton.
-    //The ConnectionPoolEntry has a reference to the AdomdConnection and vice versa so they have the same lifetime.
-    //If a client checks out a ConnectionPoolEntry and doesn't return it, the ConnectionPool retains no reference to it.
     internal class ConnectionPool
     {
         public static readonly ConnectionPool Instance = new ConnectionPool();
-
-        readonly ConcurrentDictionary<string, ConcurrentStack<ConnectionPoolEntry>> avalableConnections = 
-            new ConcurrentDictionary<string, ConcurrentStack<ConnectionPoolEntry>>();
+        readonly ConcurrentDictionary<string, ConcurrentStack<ConnectionPoolEntry>> avalableConnections = new ConcurrentDictionary<string, ConcurrentStack<ConnectionPoolEntry>>();
 
         public void ReturnConnection(ConnectionPoolEntry entry)
         {
@@ -66,19 +53,14 @@ namespace aas.web.api.Models
             entry.RecordCheckIn();
             avalableConnections[key].Push(entry);
         }
-        
         public ConnectionPoolEntry GetConnection(string connectionString, AuthData authData)
         {
             var key = connectionString;
-
             ConnectionPoolEntry rv = null;
             avalableConnections.AddOrUpdate(key, k => new ConcurrentStack<ConnectionPoolEntry>(), (k, c) =>
             {
                 while (c.TryPop( out var entry ))
                 {
-                    //if we discover that the entry has expired, dispose of it
-                    //this typically happens when the entry uses BEARER auth and its token
-                    //has expired (or is about to).
                     if (entry.ValidTo > DateTime.Now.Subtract(TimeSpan.FromMinutes(1)))
                     {
                         entry.Connection.Dispose();
@@ -88,7 +70,6 @@ namespace aas.web.api.Models
                     rv = entry;
                     break;
                 }
-     
                 return c;
             });
 
@@ -103,11 +84,9 @@ namespace aas.web.api.Models
                     var token = TokenHelper.ReadToken(authData.PasswordOrToken);
                     validTo = token.ValidTo.ToLocalTime();
                 }
-                
                 rv.ValidTo = validTo;
                 con.Open();
             }
-
             rv.RecordCheckOut();
             return rv;
         }

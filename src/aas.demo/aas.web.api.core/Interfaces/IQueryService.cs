@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
-using aas.web.api.Models;
+using aas.demo.shared;
 
 namespace aas.web.api.Interfaces
 {

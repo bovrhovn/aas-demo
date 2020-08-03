@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace aas.web.api.Models
+namespace aas.demo.shared
 {
     public enum AuthScheme
     {

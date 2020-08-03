@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using aas.demo.shared;
 using aas.web.api.Interfaces;
 using aas.web.api.Models;
 using aas.web.api.Settings;

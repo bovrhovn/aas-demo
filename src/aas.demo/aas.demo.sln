@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aas.web.api.core", "aas.web.api.core\aas.web.api.core.csproj", "{DC83644C-8F46-439C-83C0-47164CE8F3C6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aas.client", "aas.client\aas.client.csproj", "{785D77BD-08AE-4121-9EED-CD5F1819F6BA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{82FFF217-E85D-4357-B77D-B637C90BAC14}"
 ProjectSection(SolutionItems) = preProject
-	..\Dockerfile = ..\Dockerfile
+	..\Dockerfileclassic = ..\Dockerfileclassic
 EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aas.web.api.classic", "aas.web.api.classic\aas.web.api.classic.csproj", "{DF86D30A-C0BE-43EE-85DA-6264CDCDDCE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,13 +15,13 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DC83644C-8F46-439C-83C0-47164CE8F3C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC83644C-8F46-439C-83C0-47164CE8F3C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC83644C-8F46-439C-83C0-47164CE8F3C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC83644C-8F46-439C-83C0-47164CE8F3C6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{785D77BD-08AE-4121-9EED-CD5F1819F6BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{785D77BD-08AE-4121-9EED-CD5F1819F6BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{785D77BD-08AE-4121-9EED-CD5F1819F6BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{785D77BD-08AE-4121-9EED-CD5F1819F6BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF86D30A-C0BE-43EE-85DA-6264CDCDDCE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF86D30A-C0BE-43EE-85DA-6264CDCDDCE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF86D30A-C0BE-43EE-85DA-6264CDCDDCE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF86D30A-C0BE-43EE-85DA-6264CDCDDCE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
