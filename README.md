@@ -18,7 +18,7 @@ I do recommend using IDE ([Visual Studio](https://visualstudio.com) or [Rider](h
 1. **aas.client** - command line app, which tests the solution 
 2. **aas.web.api.classic** - web api application, which hosts api for getting the data from Azure Analysis Server
 
-![.NET classic](http://data.azuredemos.net/public/aas-demo-file-structure-classic.png)
+![.NET classic](https://webeudatastorage.blob.core.windows.net/web/aas-demo-file-structure-classic.png)
 
 Also, you can see the [docker file](https://github.com/bovrhovn/aas-demo/blob/classic/src/Dockerfileclassic) to run it in your container registry.
 
